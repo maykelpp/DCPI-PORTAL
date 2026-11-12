@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#090b0a">
+  <meta name="description" content="DCPI — proyectos, novedades, herramientas y centro de descargas.">
+  <title>DCPI Portal — Tecnología y proyectos</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <header class="topbar">
+    <a class="brand" href="#inicio" aria-label="DCPI inicio"><span class="brand-mark">D<span>C</span></span><span class="brand-name">DCPI<small>PORTAL / 2017</small></span></a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
+    <nav id="mainNav">
+      <a class="nav-link active" href="#inicio">Inicio</a>
+      <a class="nav-link" href="#novedades">Novedades</a>
+      <a class="nav-link" href="#dcpi">Sobre DCPI</a>
+      <a class="nav-link" href="#descargas">Descargas</a>
+    </nav>
+    <a class="top-action" href="#descargas"><span class="status-dot"></span> Explorar proyectos <b>↗</b></a>
+  </header>
+
+  <main>
+    <section class="hero section-wrap" id="inicio">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="eyebrow-line"></span> DESCARGAS COMPLETAS · PROCESOS INTERNOS</div>
+        <h1>Ideas que se<br>convierten en <span>herramientas.</span></h1>
+        <p class="hero-text">Un espacio para descubrir proyectos, consultar novedades y acceder a herramientas desarrolladas bajo la identidad DCPI.</p>
+        <div class="hero-actions"><a class="btn btn-primary" href="#descargas">Ver descargas <span>↗</span></a><a class="btn btn-ghost" href="#dcpi">Conocer DCPI <span>↓</span></a></div>
+        <div class="hero-meta"><span><i class="pulse"></i> PORTAL EN LÍNEA</span><span>INDEPENDIENTE · DIGITAL</span></div>
+      </div>
+      <div class="hero-visual" aria-label="Identidad gráfica DCPI">
+        <div class="visual-grid"></div><div class="orbit orbit-a"></div><div class="orbit orbit-b"></div>
+        <div class="core"><div class="core-inner">D<span>C</span><small>PI</small></div></div>
+        <div class="visual-tag tag-top">DCPI / SYSTEM</div><div class="visual-tag tag-bottom">BUILDING DIGITAL TOOLS<span> ●</span></div>
+        <div class="crosshair cross-one">+</div><div class="crosshair cross-two">+</div>
+      </div>
+    </section>
+
+    <section class="ticker"><div class="ticker-track"><span>DCPI PORTAL</span><b>✳</b><span>PROYECTOS</span><b>✳</b><span>TECNOLOGÍA</span><b>✳</b><span>DESCARGAS</span><b>✳</b><span>DCPI PORTAL</span><b>✳</b><span>PROYECTOS</span><b>✳</b><span>TECNOLOGÍA</span><b>✳</b><span>DESCARGAS</span><b>✳</b></div></section>
+
+    <section class="section-wrap section" id="novedades">
+      <div class="section-heading"><div><div class="eyebrow">01 / ACTUALIDAD</div><h2>Novedades <span>& publicaciones</span></h2></div><p>Actualizaciones, anuncios y avances<br>de los proyectos DCPI.</p></div>
+      <div class="news-grid" id="newsGrid"></div>
+    </section>
+
+    <section class="about-band" id="dcpi"><div class="section-wrap about-layout">
+      <div><div class="eyebrow">02 / IDENTIDAD</div><h2>¿Qué es <span>DCPI?</span></h2></div>
+      <div class="about-content"><p class="about-lead">DCPI es un espacio independiente dedicado al desarrollo, organización y distribución de proyectos digitales.</p><p>El portal reúne herramientas, aplicaciones y recursos en un solo lugar. Su objetivo es facilitar el acceso a cada proyecto, mantener informada a la comunidad y documentar su evolución.</p><div class="about-stats"><div><strong>01</strong><span>UN SOLO PORTAL</span></div><div><strong>∞</strong><span>IDEAS POR CREAR</span></div><div><strong>24/7</strong><span>ACCESO WEB</span></div></div></div>
+    </div></section>
+
+    <section class="section-wrap section" id="descargas">
+      <div class="section-heading"><div><div class="eyebrow">03 / BIBLIOTECA DIGITAL</div><h2>Centro de <span>descargas</span></h2></div><p>Encuentra aplicaciones y herramientas.<br>Revisa sus detalles antes de descargar.</p></div>
+      <div class="download-toolbar"><label class="search-box"><span>⌕</span><input id="searchInput" type="search" placeholder="Buscar proyectos..." autocomplete="off"></label><div class="filters" id="filters"><button class="filter active" data-filter="todos">Todos</button><button class="filter" data-filter="android">Android</button><button class="filter" data-filter="web">Web</button><button class="filter" data-filter="herramienta">Herramientas</button></div></div>
+      <div class="projects-grid" id="projectsGrid"></div>
+      <div class="empty-state" id="emptyState" hidden>No se encontraron proyectos con esa búsqueda.</div>
+      <div class="library-note"><span class="note-icon">i</span><p>Las descargas se publican por sus responsables. Comprueba la versión, compatibilidad y notas de cada proyecto antes de instalar.</p></div>
+    </section>
+
+    <section class="join-section"><div class="section-wrap join-inner"><div><div class="eyebrow">DCPI / EN EL ANONIMATO</div><h2>El siguiente proyecto<br>empieza con una idea.</h2></div><a class="btn btn-primary" href="https://github.com/maykelpp" target="_blank" rel="noopener">Ver GitHub <span>↗</span></a></div></section>
+  </main>
+
+  <footer><div class="section-wrap footer-inner"><a class="brand" href="#inicio"><span class="brand-mark">D<span>C</span></span><span class="brand-name">DCPI<small>PORTAL / 2017</small></span></a><p>Un espacio independiente para proyectos digitales.</p><span class="copyright">© <span id="year"></span> DCPI · TODOS LOS DERECHOS RESERVADOS</span></div></footer>
+  <script src="script.js"></script>
+</body>
+</html>
