@@ -61,6 +61,13 @@ def base_options():
         "max_filesize": MAX_FILE_SIZE,
         "restrictfilenames": True,
         "ignoreerrors": False,
+        # PO Token provider local (BgUtils) para el cliente mweb de YouTube.
+        "extractor_args": {
+            "youtube": {"player_client": ["mweb"]},
+            "youtubepot-bgutilhttp": {
+                "base_url": ["http://127.0.0.1:4416"]
+            },
+        },
     }
 
 
