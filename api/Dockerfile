@@ -5,14 +5,23 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PORT=10000
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    ffmpeg ca-certificates curl unzip \
+    ffmpeg ca-certificates curl unzip git \
     && curl -fsSL https://deno.land/install.sh | DENO_INSTALL=/usr/local sh \
     && rm -rf /var/lib/apt/lists/*
+
+# Servidor local BgUtils PO Token Provider (misma versión que el plugin Python).
+RUN git clone --depth 1 --branch 2.0.2 \
+    https://github.com/Brainicism/bgutil-ytdlp-pot-provider.git /opt/bgutil-ytdlp-pot-provider \
+    && cd /opt/bgutil-ytdlp-pot-provider/server \
+    && deno install --allow-scripts=npm:canvas --frozen
 
 WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 COPY app.py .
+COPY start.sh .
+
+RUN chmod +x /app/start.sh
 
 EXPOSE 10000
-CMD ["sh", "-c", "gunicorn --workers 1 --threads 4 --timeout 900 --bind 0.0.0.0:$PORT app:app"]
+CMD ["/app/start.sh"]
