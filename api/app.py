@@ -18,7 +18,7 @@ allowed_origins = os.getenv(
     "ALLOWED_ORIGINS",
     "https://maykelpp.github.io"
 ).split(",")
-CORS(app, resources={r"/api/*": {"origins": [x.strip() for x in allowed_origins if x.strip()]}})
+CORS(app, resources={r"/api/*": {"origins": [x.strip() for x in allowed_origins if x.strip()]}}, expose_headers=["Content-Disposition"])
 
 limiter = Limiter(
     get_remote_address,
