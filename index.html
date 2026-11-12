@@ -21,6 +21,7 @@
       <a class="nav-link active" href="#inicio">Inicio</a>
       <a class="nav-link" href="#novedades">Novedades</a>
       <a class="nav-link" href="#dcpi">Sobre DCPI</a>
+      <a class="nav-link" href="#descargador">Descargador</a>
       <a class="nav-link" href="#descargas">Descargas</a>
     </nav>
     <a class="top-action" href="#descargas"><span class="status-dot"></span> Explorar proyectos <b>↗</b></a>
@@ -54,6 +55,30 @@
       <div><div class="eyebrow">02 / IDENTIDAD</div><h2>¿Qué es <span>DCPI?</span></h2></div>
       <div class="about-content"><p class="about-lead">DCPI es un espacio independiente dedicado al desarrollo, organización y distribución de proyectos digitales.</p><p>El portal reúne herramientas, aplicaciones y recursos en un solo lugar. Su objetivo es facilitar el acceso a cada proyecto, mantener informada a la comunidad y documentar su evolución.</p><div class="about-stats"><div><strong>01</strong><span>UN SOLO PORTAL</span></div><div><strong>∞</strong><span>IDEAS POR CREAR</span></div><div><strong>24/7</strong><span>ACCESO WEB</span></div></div></div>
     </div></section>
+
+
+    <section class="section downloader-section" id="descargador">
+      <div class="section-heading"><div><div class="eyebrow">BETA V1 / HERRAMIENTA UNIVERSAL</div><h2>Descargador <span>Universal</span></h2></div><p>Analiza enlaces con tecnología yt-dlp.<br>El soporte depende de cada plataforma.</p></div>
+      <div class="downloader-panel">
+        <div class="downloader-label"><span class="status-dot"></span> MOTOR yt-dlp <span class="beta-tag">BETA</span></div>
+        <form id="downloaderForm">
+          <label class="url-field"><span>URL</span><input id="mediaUrl" type="url" placeholder="Pega aquí el enlace del contenido..." required maxlength="2048"></label>
+          <button class="btn btn-primary analyze-btn" id="analyzeBtn" type="submit">Analizar enlace <span>⌕</span></button>
+        </form>
+        <div class="downloader-result" id="downloaderResult" hidden aria-live="polite">
+          <div class="result-thumb" id="resultThumb"><span>DCPI</span></div>
+          <div class="result-details"><span class="result-platform" id="resultPlatform">PLATAFORMA</span><h3 id="resultTitle">Contenido detectado</h3><p id="resultMeta"></p></div>
+        </div>
+        <div class="downloader-controls" id="downloadControls" hidden>
+          <label class="format-select">FORMATO
+            <select id="downloadFormat"><option value="best">Mejor calidad (video)</option><option value="mp4">MP4</option><option value="mp3">MP3 (audio)</option></select>
+          </label>
+          <button class="btn btn-primary" id="downloadBtn" type="button">Descargar <span>↓</span></button>
+        </div>
+        <p class="downloader-status" id="downloaderStatus" role="status">Pega un enlace HTTP/HTTPS y pulsa analizar. No se admiten listas de reproducción.</p>
+      </div>
+      <p class="downloader-disclaimer">Usa esta herramienta únicamente con contenido que tengas permiso para descargar. No elude DRM, restricciones de acceso ni contenido de pago. Los archivos se procesan temporalmente en el servidor.</p>
+    </section>
 
     <section class="section-wrap section" id="descargas">
       <div class="section-heading"><div><div class="eyebrow">03 / BIBLIOTECA DIGITAL</div><h2>Centro de <span>descargas</span></h2></div><p>Encuentra aplicaciones y herramientas.<br>Revisa sus detalles antes de descargar.</p></div>
