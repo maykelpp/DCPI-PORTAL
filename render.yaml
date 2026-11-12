@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: dcpi-downloader-api
+    runtime: docker
+    plan: free
+    dockerfilePath: ./api/Dockerfile
+    dockerContext: ./api
+    healthCheckPath: /api/health
+    envVars:
+      - key: ALLOWED_ORIGINS
+        value: https://maykelpp.github.io
