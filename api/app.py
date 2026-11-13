@@ -115,12 +115,24 @@ def info():
             item = ydl.extract_info(url, download=False)
         if item.get("_type") == "playlist":
             raise ValueError("Por ahora se analizan enlaces individuales, no listas.")
+        formats = item.get("formats") or []
+        preview_candidates = [
+            fmt for fmt in formats
+            if fmt.get("url") and fmt.get("vcodec") not in (None, "none")
+            and fmt.get("protocol") in ("https", "http", "m3u8_native", "http_dash_segments")
+        ]
+        preview_candidates.sort(key=lambda fmt: (
+            fmt.get("height") or 0,
+            fmt.get("tbr") or 0
+        ), reverse=True)
+        preview_url = preview_candidates[0].get("url") if preview_candidates else item.get("url")
         return jsonify({
             "ok": True, "title": item.get("title") or "Contenido sin título",
             "extractor": item.get("extractor_key") or item.get("extractor") or "Desconocido",
             "duration": item.get("duration"), "thumbnail": item.get("thumbnail"),
+            "preview_url": preview_url,
             "webpage_url": item.get("webpage_url") or url,
-            "formats_count": len(item.get("formats") or []),
+            "formats_count": len(formats),
         })
     except Exception as exc:
         return jsonify({"ok": False, "error": str(exc)[:300]}), 400
