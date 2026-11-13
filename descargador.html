@@ -48,9 +48,12 @@
 <button id="downloadBtn" class="btn btn-primary" type="button">Descargar <span>↓</span></button>
 </div>
 <div id="downloadProgress" class="dl-progress" hidden><div class="dl-progress-head"><strong>PROGRESO DE DESCARGA</strong><span id="progressPercent">0%</span></div><div class="dl-progress-track"><span id="progressFill"></span></div><small id="progressText">Preparando descarga…</small></div><div id="directLinks" class="dl-direct-links"></div>
+<button id="commentsBtn" class="btn btn-secondary" type="button">Ver comentarios disponibles</button>
+<section id="commentsPanel" class="dl-comments" hidden><div class="dl-section-head"><strong>COMENTARIOS</strong><span id="commentsCount">0</span></div><p id="commentsMessage">Consultando comentarios…</p><div id="commentsList"></div></section>
 </div>
 </div>
 </div>
+<section class="dl-history"><div class="dl-section-head"><div><span class="status-dot"></span> HISTORIAL DE DESCARGAS</div><button id="clearHistory" type="button">Borrar historial</button></div><div id="historyList"><p class="dl-empty">Todavía no hay descargas guardadas en este dispositivo.</p></div></section>
 <div class="dl-capabilities">
 <div><span>01</span><strong>Detección automática</strong><p>Reconoce TikTok y deriva los demás enlaces al motor yt-dlp.</p></div>
 <div><span>02</span><strong>Vista previa</strong><p>Consulta título, creador, duración y datos disponibles.</p></div>
