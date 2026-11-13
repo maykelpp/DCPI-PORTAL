@@ -207,8 +207,6 @@ def tiktok_preview():
             if value:
                 response_headers[name] = value
         response_headers.setdefault("Content-Type", "video/mp4")
-        response_headers["Access-Control-Allow-Origin"] = request.headers.get("Origin", "https://maykelpp.github.io")
-        response_headers["Access-Control-Expose-Headers"] = "Content-Length, Content-Range, Accept-Ranges"
 
         def generate():
             try:
