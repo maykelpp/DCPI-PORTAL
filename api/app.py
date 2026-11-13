@@ -248,8 +248,12 @@ def download():
             media = safe_media_url(media)
             if not media:
                 raise RuntimeError("TikWM no proporcionó un archivo de vídeo/audio descargable para esta publicación.")
+            title = item.get("title") or "TikTok"
+            safe_title = "".join(c for c in title if c.isalnum() or c in " .-_()[]").strip(" .")[:100] or "TikTok"
+            package_id = "DCPI-" + __import__("secrets").token_hex(2).upper()
+            extension = "mp3" if kind == "mp3" else "mp4"
             req = urllib.request.Request(media, headers={"User-Agent": "Mozilla/5.0"})
-            target = os.path.join(temp_dir, "dcpi-tiktok.mp3" if kind == "mp3" else "dcpi-tiktok.mp4")
+            target = os.path.join(temp_dir, f"{package_id} - {safe_title}.{extension}")
             total = 0
             with urllib.request.urlopen(req, timeout=30) as source, open(target, "wb") as output:
                 while True:
@@ -264,12 +268,17 @@ def download():
             response.call_on_close(lambda: (shutil.rmtree(temp_dir, ignore_errors=True), download_slots.release()))
             return response
         options = base_options()
+        package_id = "DCPI-" + __import__("secrets").token_hex(2).upper()
         options.update({
-            "outtmpl": os.path.join(temp_dir, "%(title).120B.%(ext)s"),
+            "outtmpl": os.path.join(temp_dir, package_id + " - %(title).100B.%(ext)s"),
             "format": {"best": "bv*+ba/b", "mp4": "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4]/b", "mp3": "bestaudio/best"}.get(kind, "bv*+ba/b"),
         })
         if kind == "mp3":
-            options["postprocessors"] = [{"key": "FFmpegExtractAudio", "preferredcodec": "mp3", "preferredquality": "192"}]
+            options["postprocessors"] = [
+                {"key": "FFmpegExtractAudio", "preferredcodec": "mp3", "preferredquality": "192"},
+                {"key": "FFmpegMetadata", "add_metadata": True},
+            ]
+            options["postprocessor_args"] = {"ffmpeg": ["-metadata", "publisher=DCPI", "-metadata", "comment=DCPI " + package_id]}
         with yt_dlp.YoutubeDL(options) as ydl:
             ydl.download([url])
         candidates = [os.path.join(temp_dir, name) for name in os.listdir(temp_dir) if os.path.isfile(os.path.join(temp_dir, name)) and not name.endswith((".part", ".ytdl"))]
@@ -285,6 +294,33 @@ def download():
         shutil.rmtree(temp_dir, ignore_errors=True)
         download_slots.release()
         return jsonify({"ok": False, "error": str(exc)[:300]}), 400
+
+
+@app.post("/api/comments")
+@limiter.limit("10 per hour")
+def comments():
+    data = request.get_json(silent=True) or {}
+    try:
+        url = validate_url(data.get("url", ""))
+        options = base_options()
+        options.update({"skip_download": True, "getcomments": True})
+        with yt_dlp.YoutubeDL(options) as ydl:
+            item = ydl.extract_info(url, download=False)
+        raw = item.get("comments") or []
+        rows = []
+        for c in raw[:50]:
+            if not isinstance(c, dict):
+                continue
+            rows.append({
+                "author": c.get("author") or c.get("uploader") or "Usuario",
+                "text": c.get("text") or c.get("content") or "",
+                "likes": c.get("like_count"),
+                "timestamp": c.get("timestamp"),
+            })
+        return jsonify({"ok": True, "comments": rows, "count": len(rows),
+                        "message": None if rows else "Esta plataforma o publicación no entregó comentarios al extractor."})
+    except Exception as exc:
+        return jsonify({"ok": False, "comments": [], "error": str(exc)[:220]}), 400
 
 
 @app.errorhandler(413)
