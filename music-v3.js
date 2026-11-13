@@ -18,6 +18,21 @@ host.innerHTML='<div class="music-extension-toolbar"><input id="extSearch" place
 host.querySelectorAll('[data-ext]').forEach(b=>b.onclick=()=>{let id=b.dataset.ext;if(modules.find(m=>m.id===id).core){toast('Este módulo integrado no se puede desactivar.');return}state[id]=!state[id];save();renderExtensions();toast(state[id]?'Módulo activado':'Módulo desactivado')});
 $('extSearch').oninput=e=>{let q=e.target.value.toLowerCase();host.querySelectorAll('.music-extension').forEach((el,i)=>el.hidden=!(modules[i].name+' '+modules[i].kind+' '+modules[i].desc).toLowerCase().includes(q))};
 }
+
+function buildExplore(){
+const home=$('view-home');if(!home||$('musicExplore'))return;
+const wrap=document.createElement('section');wrap.id='musicExplore';wrap.className='music-card';wrap.style.marginTop='16px';
+wrap.innerHTML='<h2>EXPLORAR TU COLECCIÓN</h2><div class="music-grid"><div><h3>ÁLBUMES</h3><div id="exploreAlbums" class="music-track-list"></div></div><div><h3>ARTISTAS</h3><div id="exploreArtists" class="music-track-list"></div></div></div>';
+home.append(wrap);
+const draw=()=>{
+let tracks=window.__dcpiMusicTracks||[];
+if(!tracks.length){let library=$('trackList');if(library)tracks=[...library.querySelectorAll('.music-track')].map(x=>({name:x.querySelector('.music-track-name')?.textContent||'',artist:x.querySelector('.music-track-sub')?.textContent.split(' · ')[0]||'Artista desconocido',album:x.querySelector('.music-track-sub')?.textContent.split(' · ')[1]||'Álbum desconocido'}))}
+const group=k=>{let m=new Map();tracks.forEach(t=>{let n=t[k]||'Desconocido';m.set(n,(m.get(n)||0)+1)});return [...m.entries()].sort((a,b)=>b[1]-a[1]).slice(0,8)};
+const render=(id,arr,type)=>{let host=$(id);if(!host)return;host.innerHTML=arr.length?arr.map(([name,count])=>'<button class="music-track" data-explore="'+type+'" data-name="'+name.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'" style="width:100%;text-align:left;background:transparent;color:inherit"><span class="music-thumb">'+(type==='artist'?'◉':'▦')+'</span><span><span class="music-track-name">'+name+'</span><span class="music-track-sub">'+count+' canciones</span></span></button>').join(''):'<div class="music-empty">Importa música para descubrir tu colección.</div>';host.querySelectorAll('[data-explore]').forEach(b=>b.onclick=()=>{let q=$('searchInput');if(q){q.value=b.dataset.name;document.querySelector('[data-view="library"]')?.click();q.dispatchEvent(new Event('input'))}})};
+render('exploreAlbums',group('album'),'album');render('exploreArtists',group('artist'),'artist');
+};
+draw();setTimeout(draw,900);
+}
 function fullscreenPlayer(){
 if($('nowOverlay'))return;
 let el=document.createElement('div');el.id='nowOverlay';el.className='music-now-overlay';el.innerHTML='<button class="music-now-close" id="nowClose" aria-label="Cerrar">×</button><div class="music-now-panel"><div class="music-art"><span>DCPI</span></div><div class="music-now-meta"><small class="music-muted">DCPI MUSIC · NOW PLAYING</small><h2 id="fullTitle">Selecciona una canción</h2><p id="fullArtist">Tu biblioteca, tu sonido.</p><div class="music-progress"><span id="fullCurrent">0:00</span><input id="fullSeek" type="range" min="0" max="1000" value="0"><span id="fullDuration">0:00</span></div><div class="music-controls"><button class="music-icon" id="fullPrev">|◀</button><button class="music-icon big" id="fullPlay">▶</button><button class="music-icon" id="fullNext">▶|</button></div><p class="music-muted">La reproducción continúa mientras esta pantalla esté abierta.</p></div></div>';
@@ -32,6 +47,6 @@ audio.addEventListener('timeupdate',sync);audio.addEventListener('play',sync);au
 const hero=document.querySelector('.music-hero');if(hero){let b=document.createElement('button');b.className='music-btn fullscreen-btn';b.textContent='⛶ PANTALLA COMPLETA';b.onclick=()=>{sync();el.classList.add('open')};hero.querySelector('.music-tools')?.append(b)}
 }
 document.addEventListener('click',e=>{if(e.target.closest('[data-view="extensions"]'))setTimeout(renderExtensions,0)});
-document.addEventListener('DOMContentLoaded',()=>{renderExtensions();fullscreenPlayer()});
-setTimeout(()=>{renderExtensions();fullscreenPlayer()},500);
+document.addEventListener('DOMContentLoaded',()=>{renderExtensions();fullscreenPlayer();buildExplore()});
+setTimeout(()=>{renderExtensions();fullscreenPlayer();buildExplore()},500);
 })();
