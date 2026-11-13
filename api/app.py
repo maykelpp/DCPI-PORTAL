@@ -296,6 +296,16 @@ def download():
         return jsonify({"ok": False, "error": str(exc)[:300]}), 400
 
 
+@app.errorhandler(413)
+def too_large(_error):
+    return jsonify({"ok": False, "error": "La solicitud es demasiado grande."}), 413
+
+
+@app.errorhandler(429)
+def rate_limited(_error):
+    return jsonify({"ok": False, "error": "Límite de solicitudes alcanzado. Inténtalo más tarde."}), 429
+
+
 @app.post("/api/comments")
 @limiter.limit("10 per hour")
 def comments():
@@ -321,16 +331,6 @@ def comments():
                         "message": None if rows else "Esta plataforma o publicación no entregó comentarios al extractor."})
     except Exception as exc:
         return jsonify({"ok": False, "comments": [], "error": str(exc)[:220]}), 400
-
-
-@app.errorhandler(413)
-def too_large(_error):
-    return jsonify({"ok": False, "error": "La solicitud es demasiado grande."}), 413
-
-
-@app.errorhandler(429)
-def rate_limited(_error):
-    return jsonify({"ok": False, "error": "Límite de solicitudes alcanzado. Inténtalo más tarde."}), 429
 
 
 if __name__ == "__main__":
