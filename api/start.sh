@@ -1,9 +1,10 @@
 #!/bin/sh
 set -eu
 
+APP_DIR="/app"
 PROVIDER_DIR="/opt/bgutil-ytdlp-pot-provider/server"
 
-# Start BgUtils using its documented Deno entry point.
+# Start BgUtils from its installed dependency directory.
 cd "$PROVIDER_DIR/node_modules"
 deno run --allow-env --allow-net --allow-ffi=. --allow-read=. ../src/main.ts --host 127.0.0.1 --port 4416 &
 POT_PID=$!
@@ -33,4 +34,6 @@ if [ "$READY" -ne 1 ]; then
   exit 1
 fi
 
-exec gunicorn --workers 1 --threads 4 --timeout 900 --bind "0.0.0.0:${PORT:-10000}" app:app
+# Gunicorn must run from the directory containing app.py.
+cd "$APP_DIR"
+exec gunicorn --chdir "$APP_DIR" --workers 1 --threads 4 --timeout 900 --bind "0.0.0.0:${PORT:-10000}" app:app
