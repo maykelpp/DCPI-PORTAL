@@ -194,6 +194,28 @@ def download():
         data = request.get_json(silent=True) or {}
         url = validate_url(data.get("url", ""))
         kind = data.get("format", "best")
+        host = (urlparse(url).hostname or "").lower()
+        if host == "tiktok.com" or host.endswith(".tiktok.com"):
+            item = tikwm_info(validate_tiktok_url(url))
+            media = item.get("music_info", {}).get("play") if kind == "mp3" else (item.get("hdplay") or item.get("play"))
+            media = safe_media_url(media)
+            if not media:
+                raise RuntimeError("TikWM no proporcionó un archivo de vídeo/audio descargable para esta publicación.")
+            req = urllib.request.Request(media, headers={"User-Agent": "Mozilla/5.0"})
+            target = os.path.join(temp_dir, "dcpi-tiktok.mp3" if kind == "mp3" else "dcpi-tiktok.mp4")
+            total = 0
+            with urllib.request.urlopen(req, timeout=30) as source, open(target, "wb") as output:
+                while True:
+                    chunk = source.read(1024 * 1024)
+                    if not chunk:
+                        break
+                    total += len(chunk)
+                    if total > MAX_FILE_SIZE:
+                        raise RuntimeError("El archivo supera el límite de 1 GiB.")
+                    output.write(chunk)
+            response = send_file(target, as_attachment=True, download_name=os.path.basename(target), conditional=True)
+            response.call_on_close(lambda: (shutil.rmtree(temp_dir, ignore_errors=True), download_slots.release()))
+            return response
         options = base_options()
         options.update({
             "outtmpl": os.path.join(temp_dir, "%(title).120B.%(ext)s"),
