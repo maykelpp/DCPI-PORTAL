@@ -1,61 +1,29 @@
 (() => {
-const API="https://dcpi-downloader-api.onrender.com";
-const $=id=>document.getElementById(id);
-const form=$("unifiedForm");
+"use strict";
+const API="https://dcpi-downloader-api.onrender.com", $=id=>document.getElementById(id), form=$("unifiedForm");
 let analyzed={url:"",engine:"",data:null};
-function status(message,state=""){const el=$("status");el.textContent=message;el.dataset.state=state;}
-function isTikTok(url){try{const h=new URL(url).hostname.toLowerCase();return h==="tiktok.com"||h.endsWith(".tiktok.com");}catch{return false;}}
-function fmtDuration(v){const n=Number(v);return Number.isFinite(n)&&n>=0?Math.floor(n/60)+":"+String(Math.floor(n%60)).padStart(2,"0"):"Duración no disponible";}
-function fmtNum(v){const n=Number(v);return Number.isFinite(n)&&n>=0?new Intl.NumberFormat("es-EC",{notation:n>=10000?"compact":"standard",maximumFractionDigits:1}).format(n):"—";}
-function addStat(label,value){const node=document.createElement("span");const b=document.createElement("b"),s=document.createElement("small");b.textContent=value;s.textContent=label;node.append(b,s);$("stats").append(node);}
-function addLink(label,url){if(!url)return;const a=document.createElement("a");a.href=url;a.target="_blank";a.rel="noopener noreferrer";a.textContent=label+" ↓";$("directLinks").append(a);}
-function reset(){ $("result").hidden=true;$("detection").hidden=true;$("stats").replaceChildren();$("directLinks").replaceChildren();$("photoGrid").replaceChildren();$("authorBlock").hidden=true;$("cover").hidden=true;$("music").hidden=true;$("formatWrap").hidden=false;$("downloadBtn").hidden=false;}
-function detect(name,engine,icon){$("detection").hidden=false;$("platformName").textContent=name;$("engineName").textContent=engine;$("detectIcon").textContent=icon;}
+function status(m,s=""){const e=$("status");e.textContent=m;e.dataset.state=s;}
+function isTikTok(u){try{const h=new URL(u).hostname.toLowerCase();return h==="tiktok.com"||h.endsWith(".tiktok.com");}catch{return false;}}
+function duration(v){const n=Number(v);return Number.isFinite(n)&&n>=0?Math.floor(n/60)+":"+String(Math.floor(n%60)).padStart(2,"0"):"Duración no disponible";}
+function number(v){const n=Number(v);return Number.isFinite(n)&&n>=0?new Intl.NumberFormat("es-EC",{notation:n>=10000?"compact":"standard",maximumFractionDigits:1}).format(n):"—";}
+function stat(l,v){const n=document.createElement("span"),b=document.createElement("b"),s=document.createElement("small");b.textContent=v;s.textContent=l;n.append(b,s);$("stats").append(n);}
+function link(l,u){if(!u)return;const a=document.createElement("a");a.href=u;a.target="_blank";a.rel="noopener noreferrer";a.textContent=l+" ↗";$("directLinks").append(a);}
+function preview(u){const v=$("previewVideo");if(!u){v.pause();v.removeAttribute("src");v.load();v.hidden=true;return;}v.src=u;v.hidden=false;v.load();}
+function hideProgress(){const p=$("downloadProgress");p.hidden=true;$("progressFill").style.width="0%";$("progressText").textContent="";$("progressPercent").textContent="0%";}
+function reset(){$("result").hidden=true;$("detection").hidden=true;$("stats").replaceChildren();$("directLinks").replaceChildren();$("photoGrid").replaceChildren();$("authorBlock").hidden=true;$("cover").hidden=true;preview("");$("music").hidden=true;$("formatWrap").hidden=false;$("downloadBtn").hidden=false;hideProgress();}
+function detect(n,e,i){$("detection").hidden=false;$("platformName").textContent=n;$("engineName").textContent=e;$("detectIcon").textContent=i;}
 function renderTikTok(d){
- detect("TikTok","TIKWM API","TT");
- $("mediaTitle").textContent=d.title||"TikTok";
- $("mediaMeta").textContent=fmtDuration(d.duration)+" · "+(d.width&&d.height?d.width+" × "+d.height:"Video o publicación");
- if(d.cover){$("cover").src=d.cover;$("cover").hidden=false;}
+ detect("TikTok","TIKWM API","TT");$("mediaTitle").textContent=d.title||"TikTok";$("mediaMeta").textContent=duration(d.duration)+" · "+(d.width&&d.height?d.width+" × "+d.height:"Video o publicación");
+ if(d.cover){$("cover").src=d.cover;$("cover").hidden=false;}preview(d.media?.hd||d.media?.no_watermark||d.media?.watermark);
  if(d.author?.nickname||d.author?.unique_id){$("authorBlock").hidden=false;$("authorName").textContent=d.author.nickname||"Creador";$("authorHandle").textContent=d.author.unique_id?"@"+d.author.unique_id:"TikTok";if(d.author.avatar)$("avatar").src=d.author.avatar;}
- addStat("Vistas",fmtNum(d.play_count));addStat("Me gusta",fmtNum(d.digg_count));addStat("Comentarios",fmtNum(d.comment_count));addStat("Compartidos",fmtNum(d.share_count));addStat("Duración",fmtDuration(d.duration));
+ stat("Vistas",number(d.play_count));stat("Me gusta",number(d.digg_count));stat("Comentarios",number(d.comment_count));stat("Compartidos",number(d.share_count));stat("Duración",duration(d.duration));
  if(d.music?.title){$("music").hidden=false;$("music").textContent="♫ "+d.music.title+" — "+(d.music.author||"Audio original");}
- if(d.images?.length){$("photoGrid").hidden=false;d.images.slice(0,12).forEach(url=>{const img=document.createElement("img");img.src=url;img.alt="Foto de la publicación";img.loading="lazy";$("photoGrid").append(img);});}
- addLink("Video HD sin marca de agua",d.media?.hd);addLink("Video sin marca de agua",d.media?.no_watermark);addLink("Video con marca de agua",d.media?.watermark);addLink("Audio",d.music?.play);
- (d.images||[]).slice(0,12).forEach((url,i)=>addLink("Foto "+(i+1),url));
+ if(d.images?.length){$("photoGrid").hidden=false;d.images.slice(0,12).forEach(u=>{const im=document.createElement("img");im.src=u;im.alt="Foto de la publicación";im.loading="lazy";$("photoGrid").append(im);});}
+ link("Video HD sin marca de agua",d.media?.hd);link("Video sin marca de agua",d.media?.no_watermark);link("Video con marca de agua",d.media?.watermark);link("Audio",d.music?.play);(d.images||[]).slice(0,12).forEach((u,i)=>link("Foto "+(i+1),u));
  $("formatWrap").hidden=true;$("downloadBtn").hidden=true;$("result").hidden=false;
 }
-function renderYtDlp(d){
- detect(d.extractor||"Plataforma compatible","YT-DLP ENGINE","DC");
- $("mediaTitle").textContent=d.title||"Contenido detectado";
- $("mediaMeta").textContent=fmtDuration(d.duration)+" · "+(d.formats_count||0)+" formatos detectados";
- if(d.thumbnail){$("cover").src=d.thumbnail;$("cover").hidden=false;}
- $("result").hidden=false;
-}
-form.addEventListener("submit",async e=>{
- e.preventDefault();const url=$("mediaUrl").value.trim();if(!url)return;
- reset();analyzed={url:"",engine:"",data:null};$("analyzeBtn").disabled=true;$("analyzeBtn").textContent="Analizando...";status("Detectando plataforma y seleccionando el motor disponible...","loading");
- try{
-  const tiktok=isTikTok(url),endpoint=API+(tiktok?"/api/tiktok/info":"/api/info");
-  const response=await fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({url})});
-  const data=await response.json();if(!response.ok||!data.ok)throw new Error(data.error||"No se pudo analizar el enlace.");
-  analyzed={url,engine:tiktok?"tikwm":"ytdlp",data};
-  if(tiktok)renderTikTok(data);else renderYtDlp(data);
-  status("Análisis completado. "+(tiktok?"TikWM ha devuelto las opciones multimedia disponibles.":"Selecciona el formato y descarga el contenido autorizado."),"success");
- }catch(err){status(err.message||"Error de conexión con el servidor.","error");}
- finally{$("analyzeBtn").disabled=false;$("analyzeBtn").innerHTML='Analizar <span>⌕</span>';}
-});
-$("downloadBtn").addEventListener("click",async()=>{
- if(!analyzed.url||analyzed.engine!=="ytdlp")return;
- $("downloadBtn").disabled=true;$("downloadBtn").textContent="Preparando archivo...";status("Procesando el archivo en el servidor...","loading");
- try{
-  const response=await fetch(API+"/api/download",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({url:analyzed.url,format:$("format").value})});
-  const type=response.headers.get("content-type")||"";
-  if(!response.ok||type.includes("application/json")){const data=await response.json();throw new Error(data.error||"No se pudo preparar el archivo.");}
-  const blob=await response.blob(),disposition=response.headers.get("content-disposition")||"",match=disposition.match(/filename\*=UTF-8''([^;]+)|filename="?([^";]+)"?/i);
-  const filename=match?decodeURIComponent(match[1]||match[2]):"dcpi-descarga";
-  const objectUrl=URL.createObjectURL(blob),a=document.createElement("a");a.href=objectUrl;a.download=filename;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(objectUrl),30000);
-  status("Archivo preparado. Revisa la carpeta de descargas.","success");
- }catch(err){status(err.message||"Error durante la descarga.","error");}
- finally{$("downloadBtn").disabled=false;$("downloadBtn").innerHTML='Descargar <span>↓</span>';}
-});
+function renderOther(d){detect(d.extractor||"Plataforma compatible","YT-DLP ENGINE","DC");$("mediaTitle").textContent=d.title||"Contenido detectado";$("mediaMeta").textContent=duration(d.duration)+" · "+(d.formats_count||0)+" formatos detectados";if(d.thumbnail){$("cover").src=d.thumbnail;$("cover").hidden=false;}preview(d.preview_url);$("result").hidden=false;}
+form.addEventListener("submit",async e=>{e.preventDefault();const url=$("mediaUrl").value.trim();if(!url)return;reset();analyzed={url:"",engine:"",data:null};$("analyzeBtn").disabled=true;$("analyzeBtn").textContent="Analizando...";status("Detectando plataforma y preparando la vista previa…","loading");try{const tt=isTikTok(url),r=await fetch(API+(tt?"/api/tiktok/info":"/api/info"),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({url})}),d=await r.json();if(!r.ok||!d.ok)throw Error(d.error||"No se pudo analizar el enlace.");analyzed={url,engine:tt?"tikwm":"ytdlp",data:d};tt?renderTikTok(d):renderOther(d);status("Vista previa lista. Reproduce el contenido y selecciona el formato antes de descargar.","success");}catch(e){status(e.message||"Error de conexión con el servidor.","error");}finally{$("analyzeBtn").disabled=false;$("analyzeBtn").innerHTML='Analizar <span>⌕</span>';}}); 
+$("downloadBtn").addEventListener("click",async()=>{if(!analyzed.url||analyzed.engine!=="ytdlp")return;const b=$("downloadBtn");b.disabled=true;b.textContent="Descargando…";$("downloadProgress").hidden=false;$("progressFill").style.width="0%";$("progressPercent").textContent="0%";$("progressText").textContent="Esperando archivo del servidor…";status("El servidor está preparando el archivo. La barra mostrará el avance de recepción.","loading");try{const r=await fetch(API+"/api/download",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({url:analyzed.url,format:$("format").value})}),ct=r.headers.get("content-type")||"";if(!r.ok||ct.includes("application/json")){const d=await r.json();throw Error(d.error||"No se pudo preparar el archivo.");}const total=Number(r.headers.get("content-length"))||0,reader=r.body?.getReader();let received=0,chunks=[];if(reader){while(true){const x=await reader.read();if(x.done)break;chunks.push(x.value);received+=x.value.length;if(total){const pct=Math.min(100,received/total*100);$("progressFill").style.width=pct+"%";$("progressPercent").textContent=Math.round(pct)+"%";$("progressText").textContent=bytes(received)+" de "+bytes(total);}else{$("progressPercent").textContent="…";$("progressText").textContent=bytes(received)+" recibidos · tamaño total no informado";}}}else{const bl=await r.blob();chunks=[bl];received=bl.size;}const blob=new Blob(chunks,{type:ct||"application/octet-stream"}),cd=r.headers.get("content-disposition")||"",m=cd.match(/filename\*=UTF-8''([^;]+)|filename="?([^";]+)"?/i);let name="dcpi-descarga";try{if(m)name=decodeURIComponent(m[1]||m[2]);}catch{}const u=URL.createObjectURL(blob),a=document.createElement("a");a.href=u;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),60000);$("progressFill").style.width="100%";$("progressPercent").textContent="100%";$("progressText").textContent=bytes(received)+" · Archivo recibido";status("Descarga completada. Revisa la carpeta Descargas.","success");}catch(e){hideProgress();status(e.message||"Error durante la descarga.","error");}finally{b.disabled=false;b.innerHTML='Descargar <span>↓</span>';}}); 
+function bytes(n){const units=["B","KB","MB","GB"];let i=0;while(n>=1024&&i<3){n/=1024;i++;}return n.toFixed(i?1:0)+" "+units[i];}
 })();
