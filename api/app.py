@@ -63,7 +63,7 @@ def base_options():
         "ignoreerrors": False,
         # PO Token provider local (BgUtils) para el cliente mweb de YouTube.
         "extractor_args": {
-            "youtube": {"player_client": ["mweb"]},
+            "youtube": {"player_client": ["mweb", "tv", "web_safari"]},
             "youtubepot-bgutilhttp": {
                 "base_url": ["http://127.0.0.1:4416"]
             },
