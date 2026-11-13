@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#090b0a">
+<meta name="description" content="DCPI Downloader V2 Beta — análisis y descarga de contenido multimedia autorizado.">
+<title>DCPI Downloader V2 Beta</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="downloader-v2.css">
+</head>
+<body class="downloader-page">
+<header class="topbar">
+<a class="brand" href="index.html" aria-label="DCPI inicio"><span class="brand-mark">D<span>C</span></span><span class="brand-name">DCPI<small>PORTAL / 2017</small></span></a>
+<a class="nav-link back-home" href="index.html">← Volver al portal</a>
+<div class="top-action"><span class="status-dot"></span> DOWNLOADER V2 <b>BETA</b></div>
+</header>
+<main class="dl-main">
+<section class="dl-hero">
+<div class="eyebrow"><span class="eyebrow-line"></span> DCPI / MULTI-PLATFORM ENGINE</div>
+<h1>Un solo lugar.<br><span>Todos tus enlaces.</span></h1>
+<p>Analiza enlaces de plataformas compatibles desde una sola interfaz. El motor selecciona automáticamente la tecnología disponible.</p>
+<div class="engine-pills"><span>YT-DLP ENGINE</span><span>+</span><span>TIKWM API</span><span class="beta-tag">V2 BETA</span></div>
+</section>
+<section class="dl-workspace">
+<div class="dl-panel">
+<div class="dl-panel-head"><div><span class="status-dot"></span> ANALIZADOR MULTIMEDIA</div><span class="dl-version">DCPI / 2.0.0</span></div>
+<form id="unifiedForm" class="dl-form">
+<label for="mediaUrl">ENLACE DEL CONTENIDO</label>
+<div class="dl-input-row"><input id="mediaUrl" type="url" maxlength="2048" placeholder="Pega aquí un enlace de TikTok, YouTube u otra plataforma..." required><button id="analyzeBtn" class="btn btn-primary" type="submit">Analizar <span>⌕</span></button></div>
+</form>
+<div class="dl-detection" id="detection" hidden><span class="detect-icon" id="detectIcon">DC</span><div><small>PLATAFORMA DETECTADA</small><strong id="platformName">Plataforma</strong></div><span class="detect-engine" id="engineName">MOTOR</span></div>
+<p class="dl-status" id="status" role="status" aria-live="polite">Pega un enlace público y pulsa analizar. No se admiten listas de reproducción.</p>
+<div id="result" class="dl-result" hidden>
+<div class="dl-media"><img id="cover" alt="Vista previa del contenido"><div id="photoGrid" class="dl-photo-grid" hidden></div></div>
+<div class="dl-details">
+<div class="dl-author" id="authorBlock" hidden><img id="avatar" alt=""><div><strong id="authorName"></strong><span id="authorHandle"></span></div></div>
+<h2 id="mediaTitle">Contenido detectado</h2>
+<p id="mediaMeta"></p>
+<div id="stats" class="dl-stats"></div>
+<p id="music" class="dl-music" hidden></p>
+<div class="dl-options">
+<label id="formatWrap">FORMATO<select id="format"><option value="best">Mejor calidad disponible</option><option value="mp4">MP4</option><option value="mp3">MP3 · Audio</option></select></label>
+<button id="downloadBtn" class="btn btn-primary" type="button">Descargar <span>↓</span></button>
+</div>
+<div id="directLinks" class="dl-direct-links"></div>
+</div>
+</div>
+</div>
+<div class="dl-capabilities">
+<div><span>01</span><strong>Detección automática</strong><p>Reconoce TikTok y deriva los demás enlaces al motor yt-dlp.</p></div>
+<div><span>02</span><strong>Vista previa</strong><p>Consulta título, creador, duración y datos disponibles.</p></div>
+<div><span>03</span><strong>Opciones disponibles</strong><p>Formatos y calidades según cada plataforma y proveedor.</p></div>
+</div>
+<p class="dl-legal">Utiliza el servicio únicamente con contenido propio o para el que tengas autorización. No se descargan publicaciones privadas ni se eluden DRM, restricciones de acceso o contenido de pago. TikWM es un proveedor externo y sus enlaces pueden caducar.</p>
+</section>
+</main>
+<footer class="dl-footer"><a class="brand" href="index.html"><span class="brand-mark">D<span>C</span></span><span class="brand-name">DCPI<small>PORTAL / 2017</small></span></a><span>DCPI DOWNLOADER V2 BETA · 2026</span></footer>
+<script src="downloader-v2.js"></script>
+</body></html>
