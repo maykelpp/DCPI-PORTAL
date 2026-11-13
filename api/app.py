@@ -10,7 +10,7 @@ import urllib.request
 from urllib.error import URLError, HTTPError
 from urllib.parse import urlparse
 
-from flask import Flask, jsonify, request, send_file
+from flask import Flask, Response, jsonify, request, send_file, stream_with_context
 from flask_cors import CORS
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
@@ -181,6 +181,49 @@ def tiktok_info():
             "source": "TikWM",
         })
     except Exception as exc:
+        return jsonify({"ok": False, "error": str(exc)[:220]}), 400
+
+
+@app.get("/api/tiktok/preview")
+@limiter.limit("30 per hour")
+def tiktok_preview():
+    upstream = None
+    try:
+        url = validate_tiktok_url(request.args.get("url", ""))
+        item = tikwm_info(url)
+        media_url = safe_media_url(item.get("hdplay") or item.get("play"))
+        if not media_url:
+            return jsonify({"ok": False, "error": "TikTok no proporcionó una vista previa de vídeo para esta publicación."}), 404
+
+        headers = {"User-Agent": "Mozilla/5.0", "Accept": "*/*"}
+        client_range = request.headers.get("Range")
+        if client_range:
+            headers["Range"] = client_range
+        upstream_req = urllib.request.Request(media_url, headers=headers)
+        upstream = urllib.request.urlopen(upstream_req, timeout=25)
+        response_headers = {}
+        for name in ("Content-Type", "Content-Length", "Content-Range", "Accept-Ranges", "Cache-Control"):
+            value = upstream.headers.get(name)
+            if value:
+                response_headers[name] = value
+        response_headers.setdefault("Content-Type", "video/mp4")
+        response_headers["Access-Control-Allow-Origin"] = request.headers.get("Origin", "https://maykelpp.github.io")
+        response_headers["Access-Control-Expose-Headers"] = "Content-Length, Content-Range, Accept-Ranges"
+
+        def generate():
+            try:
+                while True:
+                    chunk = upstream.read(256 * 1024)
+                    if not chunk:
+                        break
+                    yield chunk
+            finally:
+                upstream.close()
+
+        return Response(stream_with_context(generate()), status=upstream.status, headers=response_headers, direct_passthrough=True)
+    except Exception as exc:
+        if upstream is not None:
+            upstream.close()
         return jsonify({"ok": False, "error": str(exc)[:220]}), 400
 
 
