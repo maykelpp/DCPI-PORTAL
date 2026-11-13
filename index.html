@@ -21,7 +21,8 @@
       <a class="nav-link active" href="#inicio">Inicio</a>
       <a class="nav-link" href="#novedades">Novedades</a>
       <a class="nav-link" href="#dcpi">Sobre DCPI</a>
-      <a class="nav-link" href="#descargador">Descargador</a>
+      <a class="nav-link" href="#descargador">Universal</a>
+      <a class="nav-link" href="#tiktok-v2">TikTok V2</a>
       <a class="nav-link" href="#descargas">Descargas</a>
     </nav>
     <a class="top-action" href="#descargas"><span class="status-dot"></span> Explorar proyectos <b>↗</b></a>
@@ -80,6 +81,31 @@
       <p class="downloader-disclaimer">Usa esta herramienta únicamente con contenido que tengas permiso para descargar. No elude DRM, restricciones de acceso ni contenido de pago. Los archivos se procesan temporalmente en el servidor.</p>
     </section>
 
+
+    <section class="section-wrap section tiktok-v2-section" id="tiktok-v2">
+      <div class="section-heading"><div><div class="eyebrow">BETA V2 / MOTOR TIKWM</div><h2>Descargador <span>TikTok</span></h2></div><p>Módulo independiente para TikTok.<br>Analiza el contenido y muestra sus opciones disponibles.</p></div>
+      <div class="tiktok-shell">
+        <div class="tiktok-topline"><span><i class="status-dot"></i> TIKWM API / CONNECTED MODULE</span><span class="beta-tag">BETA 2.0</span></div>
+        <form id="tiktokForm" class="tiktok-form">
+          <label class="url-field"><span>TT</span><input id="tiktokUrl" type="url" maxlength="2048" placeholder="Pega el enlace de un TikTok público..." required></label>
+          <button class="btn btn-primary" id="tiktokAnalyze" type="submit">Analizar TikTok <span>⌕</span></button>
+        </form>
+        <p class="tiktok-status" id="tiktokStatus" role="status">Compatible con enlaces públicos de videos y publicaciones de fotos.</p>
+        <div class="tiktok-output" id="tiktokOutput" hidden>
+          <div class="tiktok-preview"><img id="tiktokCover" alt="Portada del TikTok"><div id="tiktokPhotos" class="tiktok-photos" hidden></div></div>
+          <div class="tiktok-info">
+            <div class="tiktok-author"><img id="tiktokAvatar" alt=""><div><strong id="tiktokNickname">Creador</strong><span id="tiktokHandle">@usuario</span></div></div>
+            <h3 id="tiktokTitle">Contenido detectado</h3>
+            <div class="tiktok-stats" id="tiktokStats"></div>
+            <div class="tiktok-music" id="tiktokMusic"></div>
+            <div class="tiktok-downloads" id="tiktokDownloads"></div>
+          </div>
+        </div>
+        <div class="tiktok-foot"><span>API: TikWM</span><span>Solo contenido público y autorizado</span><span>Los enlaces multimedia pueden caducar</span></div>
+      </div>
+      <p class="downloader-disclaimer">Utiliza las opciones únicamente con publicaciones propias o contenido para el que tengas permiso. TikWM es un servicio de terceros; disponibilidad, calidad y límites pueden cambiar. No se accede a publicaciones privadas ni se evitan restricciones de TikTok.</p>
+    </section>
+
     <section class="section-wrap section" id="descargas">
       <div class="section-heading"><div><div class="eyebrow">03 / BIBLIOTECA DIGITAL</div><h2>Centro de <span>descargas</span></h2></div><p>Encuentra aplicaciones y herramientas.<br>Revisa sus detalles antes de descargar.</p></div>
       <div class="download-toolbar"><label class="search-box"><span>⌕</span><input id="searchInput" type="search" placeholder="Buscar proyectos..." autocomplete="off"></label><div class="filters" id="filters"><button class="filter active" data-filter="todos">Todos</button><button class="filter" data-filter="android">Android</button><button class="filter" data-filter="web">Web</button><button class="filter" data-filter="herramienta">Herramientas</button></div></div>
@@ -93,5 +119,6 @@
 
   <footer><div class="section-wrap footer-inner"><a class="brand" href="#inicio"><span class="brand-mark">D<span>C</span></span><span class="brand-name">DCPI<small>PORTAL / 2017</small></span></a><p>Un espacio independiente para proyectos digitales.</p><span class="copyright">© <span id="year"></span> DCPI · TODOS LOS DERECHOS RESERVADOS</span></div></footer>
   <script src="script.js"></script>
+  <script src="tiktok-v2.js"></script>
 </body>
 </html>
