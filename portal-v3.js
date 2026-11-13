@@ -17,7 +17,8 @@
  // Iluminación reactiva sutil en tarjetas; en táctil no se fuerza el seguimiento.
  if(matchMedia("(hover:hover) and (pointer:fine)").matches){
   document.querySelectorAll("[data-tilt],.info-card,.news-card,.project-card").forEach(card=>{
-   card.addEventListener("pointermove",e=>{const r=card.getBoundingClientRect();card.style.setProperty("--mx",(e.clientX-r.left)+"px");card.style.setProperty("--my",(e.clientY-r.top)+"px");},{passive:true});
+   card.addEventListener("pointermove",e=>{const r=card.getBoundingClientRect();card.style.setProperty("--mx",(e.clientX-r.left)+"px");card.style.setProperty("--my",(e.clientY-r.top)+"px");const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;card.style.transform="perspective(950px) rotateX("+(-y*5)+"deg) rotateY("+(x*7)+"deg) translateY(-3px)";},{passive:true});
+   card.addEventListener("pointerleave",()=>{card.style.transform="";});
   });
  }
  // Fondo Three.js: carga diferida y fallback CSS si WebGL/CDN no está disponible.
@@ -35,7 +36,7 @@
     const count=mobile?420:1050,positions=new Float32Array(count*3),colors=new Float32Array(count*3);
     for(let i=0;i<count;i++){positions[i*3]=(Math.random()-.5)*58;positions[i*3+1]=(Math.random()-.5)*42;positions[i*3+2]=(Math.random()-.5)*65;const c=new THREE.Color(i%7===0?red:green);colors[i*3]=c.r;colors[i*3+1]=c.g;colors[i*3+2]=c.b;}
     const geo=new THREE.BufferGeometry();geo.setAttribute("position",new THREE.BufferAttribute(positions,3));geo.setAttribute("color",new THREE.BufferAttribute(colors,3));
-    const stars=new THREE.Points(geo,new THREE.PointsMaterial({size:mobile?.075:.095,vertexColors:true,transparent:true,opacity:.62,depthWrite:false,blending:THREE.AdditiveBlending}));scene.add(stars);
+    const stars=new THREE.Points(geo,new THREE.PointsMaterial({size:mobile ? 0.075 : 0.095,vertexColors:true,transparent:true,opacity:.62,depthWrite:false,blending:THREE.AdditiveBlending}));scene.add(stars);
     const core=new THREE.Group();scene.add(core);
     const shell=new THREE.Mesh(new THREE.IcosahedronGeometry(2.35,1),new THREE.MeshBasicMaterial({color:green,wireframe:true,transparent:true,opacity:.13}));core.add(shell);
     const inner=new THREE.Mesh(new THREE.IcosahedronGeometry(1.25,1),new THREE.MeshBasicMaterial({color:red,wireframe:true,transparent:true,opacity:.12}));core.add(inner);
