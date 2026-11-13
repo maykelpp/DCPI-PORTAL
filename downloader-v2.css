@@ -50,3 +50,22 @@
 
 .dl-preview-video{display:block;width:100%;max-height:480px;aspect-ratio:16/9;object-fit:contain;background:#000;border:1px solid var(--line);margin-bottom:10px}.dl-preview-video[hidden]{display:none}
 .dl-progress{margin-top:16px;padding:14px;border:1px solid #53684b;background:#080d09}.dl-progress[hidden]{display:none}.dl-progress-head{display:flex;justify-content:space-between;gap:12px;color:#dce8d8;font:10px var(--mono);margin-bottom:10px}.dl-progress-head span{color:var(--green)}.dl-progress-track{height:9px;overflow:hidden;background:#263027;border-radius:20px}.dl-progress-track span{display:block;width:0;height:100%;background:var(--green);transition:width .15s linear;box-shadow:0 0 12px #a8ef68aa}.dl-progress small{display:block;margin-top:8px;color:var(--muted);font:10px var(--mono)}
+
+
+.dl-history,.dl-comments{margin-top:22px;padding:18px;border:1px solid var(--line);background:#0c110d}
+.dl-section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--green);font:10px var(--mono);letter-spacing:1px}
+.dl-section-head button{border:1px solid var(--line);background:#111712;color:#c5d0c3;padding:8px 11px;font:9px var(--mono);cursor:pointer}
+.dl-history-item{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--line)}
+.dl-history-item:last-child{border-bottom:0}
+.dl-history-item>div{display:grid;gap:5px;min-width:0}
+.dl-history-item strong{font-size:12px;overflow-wrap:anywhere}
+.dl-history-item small,.dl-empty{font:10px var(--mono);color:var(--muted);line-height:1.6}
+.dl-history-item a{color:var(--green);font:9px var(--mono);white-space:nowrap}
+.dl-comments{margin-top:13px}
+.dl-comments>p{font-size:11px;color:var(--muted);line-height:1.6}
+.dl-comment{padding:12px 0;border-bottom:1px solid var(--line)}
+.dl-comment strong{font-size:11px;color:#dce8d8}
+.dl-comment p{font-size:12px;line-height:1.6;color:#aeb9ad;white-space:pre-wrap;overflow-wrap:anywhere}
+#commentsBtn{margin-top:12px;width:100%;min-height:42px;border:1px solid #53684b;background:#101710;color:var(--green);font:10px var(--mono);cursor:pointer}
+#commentsBtn:disabled{opacity:.55}
+@media(max-width:520px){.dl-history-item{align-items:flex-start;flex-direction:column}.dl-section-head{align-items:flex-start}}
