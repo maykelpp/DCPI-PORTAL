@@ -54,3 +54,9 @@ body{background:radial-gradient(ellipse at 50% -15%,#29345f 0,transparent 42%),l
 .music-fullscreen-btn{margin-top:12px}
 @media(max-width:900px){.music-shell{grid-template-columns:1fr;padding:16px}.music-sidebar{padding:14px}.music-grid{grid-template-columns:1fr}.music-columns{grid-template-columns:1fr}}
 @media(max-width:600px){body{padding-bottom:86px}.music-shell{padding:10px;gap:12px}.music-card{padding:16px;border-radius:18px}.music-top{margin:8px 2px 18px}.music-hero{grid-template-columns:1fr;gap:18px;text-align:center}.music-art{width:min(230px,72%);margin:auto}.music-controls{gap:9px}.music-tools{justify-content:center}.music-extension-grid{grid-template-columns:1fr}.music-extension{grid-template-columns:40px minmax(0,1fr) auto;padding:13px}.music-now-panel{grid-template-columns:1fr;gap:20px;text-align:center}.music-now-panel .music-art{width:min(250px,70%)}.music-now-meta{text-align:center}.music-mini{bottom:6px}}
+
+/* FIX CRITICO: el canvas espacial global usa z-index:0; el reproductor debe quedar por encima y recibir los toques. */
+.music-shell,.music-mini,.page-footer{position:relative;z-index:2}
+.music-sidebar,.music-content,.music-card,.music-top-actions{position:relative}
+.music-nav,.music-nav button,.music-content button,.music-mini button{pointer-events:auto}
+.music-view{position:relative;z-index:1}
