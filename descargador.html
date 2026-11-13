@@ -36,7 +36,7 @@
 <div class="dl-detection" id="detection" hidden><span class="detect-icon" id="detectIcon">DC</span><div><small>PLATAFORMA DETECTADA</small><strong id="platformName">Plataforma</strong></div><span class="detect-engine" id="engineName">MOTOR</span></div>
 <p class="dl-status" id="status" role="status" aria-live="polite">Pega un enlace público y pulsa analizar. No se admiten listas de reproducción.</p>
 <div id="result" class="dl-result" hidden>
-<div class="dl-media"><img id="cover" alt="Vista previa del contenido"><div id="photoGrid" class="dl-photo-grid" hidden></div></div>
+<div class="dl-media"><video id="previewVideo" class="dl-preview-video" controls playsinline preload="metadata" hidden aria-label="Vista previa reproducible"></video><img id="cover" alt="Portada del contenido"><div id="photoGrid" class="dl-photo-grid" hidden></div></div>
 <div class="dl-details">
 <div class="dl-author" id="authorBlock" hidden><img id="avatar" alt=""><div><strong id="authorName"></strong><span id="authorHandle"></span></div></div>
 <h2 id="mediaTitle">Contenido detectado</h2>
@@ -47,7 +47,7 @@
 <label id="formatWrap">FORMATO<select id="format"><option value="best">Mejor calidad disponible</option><option value="mp4">MP4</option><option value="mp3">MP3 · Audio</option></select></label>
 <button id="downloadBtn" class="btn btn-primary" type="button">Descargar <span>↓</span></button>
 </div>
-<div id="directLinks" class="dl-direct-links"></div>
+<div id="downloadProgress" class="dl-progress" hidden><div class="dl-progress-head"><strong>PROGRESO DE DESCARGA</strong><span id="progressPercent">0%</span></div><div class="dl-progress-track"><span id="progressFill"></span></div><small id="progressText">Preparando descarga…</small></div><div id="directLinks" class="dl-direct-links"></div>
 </div>
 </div>
 </div>
