@@ -75,3 +75,30 @@ footer{background:#060807;border-top:1px solid #a8ff3e20}
 @media(max-width:760px){.page-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.page-hero-art{right:-55px;opacity:.3}.topbar{padding-inline:20px}}
 @media(max-width:620px){.page-shell{width:calc(100% - 32px)}.page-hero{min-height:310px;padding:55px 0 40px}.page-hero h1{font-size:clamp(39px,11vw,55px);letter-spacing:-2.5px}.page-hero p{font-size:13px}.page-grid{grid-template-columns:1fr}.page-hero-art{width:170px;height:170px;right:-60px;top:45px}.cube3d{inset:25px}.cube3d i:nth-child(n){ } .page-footer .page-shell{align-items:flex-start;flex-direction:column}.dl-main{padding-top:45px}}
 @media(prefers-reduced-motion:reduce){.core,.orbit-a,.orbit-b,.cube3d{animation:none!important}*{scroll-behavior:auto!important;transition:none!important}}
+
+
+/* DCPI NEXUS — ambiente 3D inmersivo inspirado en la referencia NÉBULA */
+:root{--dcpi-glow:rgba(168,255,62,.32);--dcpi-red-glow:rgba(255,48,72,.22)}
+body{isolation:isolate;background:#050806}
+#dcpi-space{position:fixed;inset:0;width:100%;height:100%;z-index:-3;pointer-events:none;display:block;opacity:.82}
+.dcpi-aurora{position:fixed;inset:-18%;z-index:-2;pointer-events:none;filter:blur(65px);opacity:.38;background:radial-gradient(38% 32% at 16% 20%,rgba(132,255,55,.22),transparent 72%),radial-gradient(32% 28% at 82% 32%,rgba(255,40,65,.18),transparent 72%),radial-gradient(35% 30% at 55% 85%,rgba(80,150,70,.13),transparent 72%);animation:dcpiAurora 22s ease-in-out infinite alternate}
+@keyframes dcpiAurora{to{transform:translate3d(3%,-4%,0) rotate(8deg) scale(1.12)}}
+.dcpi-scan{position:fixed;left:0;right:0;top:-140px;height:140px;z-index:5;pointer-events:none;background:linear-gradient(180deg,transparent,rgba(168,255,62,.045),transparent);animation:dcpiScan 12s linear infinite}
+@keyframes dcpiScan{to{top:110%}}
+.dcpi-grain{position:fixed;inset:0;z-index:4;pointer-events:none;opacity:.13;background:repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0 1px,transparent 1px 4px)}
+.topbar,.page-shell,.dl-main,.dl-footer{position:relative;z-index:2}
+.info-card,.news-card,.project-card,.dl-panel,.dl-history,.tiktok-shell{backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transform-style:preserve-3d}
+.info-card,.news-card,.project-card{position:relative;overflow:hidden}
+.info-card:before,.news-card:before,.project-card:before{content:"";position:absolute;inset:-1px;background:radial-gradient(340px circle at var(--mx,50%) var(--my,0%),rgba(168,255,62,.12),transparent 65%);opacity:0;transition:opacity .3s;pointer-events:none}
+.info-card:hover:before,.news-card:hover:before,.project-card:hover:before{opacity:1}
+.info-card:after,.news-card:after,.project-card:after{content:"";position:absolute;top:-80%;left:-55%;width:35%;height:260%;transform:rotate(25deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.055),transparent);transition:left .8s;pointer-events:none}
+.info-card:hover:after,.news-card:hover:after,.project-card:hover:after{left:130%}
+.page-hero-art{filter:drop-shadow(0 0 26px rgba(168,255,62,.18))}
+.cube3d i{backface-visibility:visible;box-shadow:inset 0 0 28px rgba(168,255,62,.08),0 0 20px rgba(255,48,72,.04)}
+.hero-visual{overflow:visible}
+.core{filter:drop-shadow(0 0 24px rgba(168,255,62,.2))}
+.top-action,.btn,.nav-link,.info-card,.page-callout{transition:transform .28s ease,border-color .28s ease,box-shadow .28s ease,background .28s ease}
+.dl-hero,.dl-workspace,.dl-history,.dl-capabilities,.dl-legal{position:relative;z-index:1}
+.downloader-page{background:radial-gradient(ellipse at 50% 0%,rgba(168,255,62,.07),transparent 42%),#050806}
+@media(max-width:620px){.dcpi-aurora{opacity:.22;filter:blur(48px)}.dcpi-scan{opacity:.45}#dcpi-space{opacity:.55}}
+@media(prefers-reduced-motion:reduce){.dcpi-aurora,.dcpi-scan{animation:none!important}#dcpi-space{display:none}.info-card:after,.news-card:after,.project-card:after{display:none}}
