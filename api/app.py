@@ -65,8 +65,8 @@ def safe_media_url(value):
     allowed = ("tiktokcdn.com", "tiktokv.com", "byteoversea.com", "ibytedtos.com", "muscdn.com")
     trusted = any(host == domain or host.endswith("." + domain) for domain in allowed)
     # TikWM may return regional TikTok CDN domains such as tiktokcdn-us.com.
-    regional_cdn = host == "tiktokcdn-" + host.split("tiktokcdn-", 1)[-1] if "tiktokcdn-" in host else False
-    regional_cdn = bool(__import__("re").fullmatch(r"(?:[a-z0-9-]+\\.)*tiktokcdn-[a-z0-9-]+\\.com", host))
+    registrable = ".".join(host.split(".")[-2:])
+    regional_cdn = registrable.startswith("tiktokcdn-") and registrable.endswith(".com")
     if not (trusted or regional_cdn):
         return None
     return value.strip()
