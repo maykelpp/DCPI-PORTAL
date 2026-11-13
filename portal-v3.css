@@ -80,8 +80,8 @@ footer{background:#060807;border-top:1px solid #a8ff3e20}
 /* DCPI NEXUS — ambiente 3D inmersivo inspirado en la referencia NÉBULA */
 :root{--dcpi-glow:rgba(168,255,62,.32);--dcpi-red-glow:rgba(255,48,72,.22)}
 body{isolation:isolate;background:#050806}
-#dcpi-space{position:fixed;inset:0;width:100%;height:100%;z-index:-3;pointer-events:none;display:block;opacity:.82}
-.dcpi-aurora{position:fixed;inset:-18%;z-index:-2;pointer-events:none;filter:blur(65px);opacity:.38;background:radial-gradient(38% 32% at 16% 20%,rgba(132,255,55,.22),transparent 72%),radial-gradient(32% 28% at 82% 32%,rgba(255,40,65,.18),transparent 72%),radial-gradient(35% 30% at 55% 85%,rgba(80,150,70,.13),transparent 72%);animation:dcpiAurora 22s ease-in-out infinite alternate}
+#dcpi-space{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;display:block;opacity:.82}
+.dcpi-aurora{position:fixed;inset:-18%;z-index:0;pointer-events:none;filter:blur(65px);opacity:.38;background:radial-gradient(38% 32% at 16% 20%,rgba(132,255,55,.22),transparent 72%),radial-gradient(32% 28% at 82% 32%,rgba(255,40,65,.18),transparent 72%),radial-gradient(35% 30% at 55% 85%,rgba(80,150,70,.13),transparent 72%);animation:dcpiAurora 22s ease-in-out infinite alternate}
 @keyframes dcpiAurora{to{transform:translate3d(3%,-4%,0) rotate(8deg) scale(1.12)}}
 .dcpi-scan{position:fixed;left:0;right:0;top:-140px;height:140px;z-index:5;pointer-events:none;background:linear-gradient(180deg,transparent,rgba(168,255,62,.045),transparent);animation:dcpiScan 12s linear infinite}
 @keyframes dcpiScan{to{top:110%}}
