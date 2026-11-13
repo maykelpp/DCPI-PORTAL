@@ -27,7 +27,8 @@ home.append(wrap);
 const draw=()=>{
 let tracks=window.__dcpiMusicTracks||[];
 if(!tracks.length){let library=$('trackList');if(library)tracks=[...library.querySelectorAll('.music-track')].map(x=>({name:x.querySelector('.music-track-name')?.textContent||'',artist:x.querySelector('.music-track-sub')?.textContent.split(' · ')[0]||'Artista desconocido',album:x.querySelector('.music-track-sub')?.textContent.split(' · ')[1]||'Álbum desconocido'}))}
-const safe=v=>String(v).replace(/[&<>\"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#39;'}[c]));\nconst group=k=>{let m=new Map();tracks.forEach(t=>{let n=t[k]||'Desconocido';m.set(n,(m.get(n)||0)+1)});return [...m.entries()].sort((a,b)=>b[1]-a[1]).slice(0,8)};
+const safe=v=>String(v).replace(/[&<>\"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#39;'}[c]));
+const group=k=>{let m=new Map();tracks.forEach(t=>{let n=t[k]||'Desconocido';m.set(n,(m.get(n)||0)+1)});return [...m.entries()].sort((a,b)=>b[1]-a[1]).slice(0,8)};
 const render=(id,arr,type)=>{let host=$(id);if(!host)return;host.innerHTML=arr.length?arr.map(([name,count])=>'<button class="music-track" data-explore="'+type+'" data-name="'+name.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'" style="width:100%;text-align:left;background:transparent;color:inherit"><span class="music-thumb">'+(type==='artist'?'◉':'▦')+'</span><span><span class="music-track-name">'+safe(name)+'</span><span class="music-track-sub">'+count+' canciones</span></span></button>').join(''):'<div class="music-empty">Importa música para descubrir tu colección.</div>';host.querySelectorAll('[data-explore]').forEach(b=>b.onclick=()=>{let q=$('searchInput');if(q){q.value=b.dataset.name;document.querySelector('[data-view="library"]')?.click();q.dispatchEvent(new Event('input'))}})};
 render('exploreAlbums',group('album'),'album');render('exploreArtists',group('artist'),'artist');
 };
